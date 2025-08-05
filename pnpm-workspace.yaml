@@ -1,0 +1,4 @@
+# singular/pnpm-workspace.yaml
+packages:
+  - "packages/*"
+  - "examples/*"
