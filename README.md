@@ -420,7 +420,6 @@ MIT © [Singular Core Team](https://github.com/singular-framework)
 ## 🔗 Links
 
 - **Documentation**: [https://singular-framework.dev](https://singular-framework.dev)
-- **GitHub**: [https://github.com/singular-framework/core]([https://github.com/nytdevansh/Singular])
 - **NPM**: [https://www.npmjs.com/package/singular-framework](https://www.npmjs.com/package/singular-framework)
 - **Discord**: [https://discord.gg/singular](https://discord.gg/yXv43D9B)
 - **Twitter**: [@SingularFramework](https://twitter.com/SingularFramework)
