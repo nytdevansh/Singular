@@ -49,8 +49,7 @@ export function createElement(type: string, props: Props, ...children: Child[]):
   }
 
   // Handle children
-  appendChildren(el, children.flat(10) as Child[]);
-
+children.flat(10).forEach(child => insertChild(el, child));
   return el;
 }
 
@@ -106,4 +105,24 @@ export function Fragment(props: { children: Child[] }): DocumentFragment {
   const fragment = document.createDocumentFragment();
   appendChildren(fragment as any, props.children);
   return fragment;
+}
+function insertChild(parent: Node, child: any) {
+  if (typeof child === 'function') {
+      const _text = document.createTextNode(String(child()));
+      parent.appendChild(_text);
+
+      effect(() => {
+        _text.textContent = String(child());
+      });
+  } else if (typeof child === "string" || typeof child === "number") {
+    parent.appendChild(document.createTextNode(String(child)));
+  } else if (Array.isArray(child)) {
+    child.forEach(nested => {
+      insertChild(parent, nested);
+    });
+  } else if (child instanceof Node) {
+    parent.appendChild(child);
+  } else if (child != null) {
+    parent.appendChild(document.createTextNode(String(child)));
+  }
 }

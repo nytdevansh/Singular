@@ -1,0 +1,53 @@
+// Core Singular Framework Export
+export function greet(name) {
+    return `Hello, ${name} from Singular Core!`;
+}
+// Core rendering
+export { createElement, Fragment } from './createElement';
+export { render } from './render';
+// Reactivity system
+export { useState, effect, computed, batch } from './reactivity';
+// Component system
+export { component, memo, createContext, createPortal, Show, For } from './component';
+// Router
+export { Router, Link, router, navigation } from './router';
+// State management
+export { createStore, derived, writable, readable, createActions, persist, appStore, appActions, applyMiddleware, logger, connectDevTools } from './store';
+// Version info
+export const VERSION = '1.0.0-alpha';
+// Development utilities
+export const dev = {
+    // Enable reactive debugging
+    enableReactiveDebugging() {
+        if (typeof window !== 'undefined') {
+            window.__SINGULAR_DEBUG__ = true;
+        }
+    },
+    // Performance monitoring
+    startPerformanceMonitoring() {
+        console.log('🚀 Singular Performance Monitoring Enabled');
+    },
+    // Component tree inspector (basic)
+    inspectComponents() {
+        console.log('📊 Singular Component Inspector - Feature coming soon!');
+    }
+};
+// Framework metadata
+export const Singular = {
+    version: VERSION,
+    // Plugin system (placeholder for future)
+    plugins: [],
+    use(plugin) {
+        this.plugins.push(plugin);
+        if (typeof plugin.install === 'function') {
+            plugin.install();
+        }
+    },
+    // Configuration
+    config: {
+        devMode: typeof process !== 'undefined' && process.env?.NODE_ENV !== 'production',
+        strict: true,
+        warnOnUnhandledEffects: true
+    }
+};
+//# sourceMappingURL=index.js.map

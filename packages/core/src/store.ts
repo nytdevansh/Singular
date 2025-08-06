@@ -44,13 +44,16 @@ export function createStore<T>(initialValue: T): Store<T> {
 }
 
 // Create a computed store derived from other stores
+// Create a computed store derived from other stores
 export function derived<T, Sources extends readonly any[]>(
   stores: Sources,
   fn: (...values: Sources) => T
 ): () => T {
   return computed(() => {
-    const values = stores.map(store => typeof store === 'function' ? store() : store);
-    return fn(...(values as Sources));
+    const values = stores.map(store =>
+      typeof store === 'function' ? store() : store
+    );
+    return fn(...(values as unknown as Sources));
   });
 }
 

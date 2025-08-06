@@ -535,78 +535,96 @@
         // Todo component
         function TodoDemo() {
             let inputValue = '';
-            
+
             const addTodo = () => {
-                if (inputValue.trim()) {
-                    const newTodo = {
-                        id: Date.now(),
-                        text: inputValue.trim(),
-                        completed: false
-                    };
-                    
-                    todoStore.update(todos => [...todos, newTodo]);
-                    inputValue = '';
-                    document.querySelector('.todo-input').value = '';
-                    showNotification('Todo added!', 'success');
+                const value = inputValue.trim();
+                if (value) {
+                const newTodo = {
+                    id: Date.now(),
+                    text: value,
+                    completed: false
+                };
+
+                todoStore.update(todos => [...todos, newTodo]);
+                inputValue = '';
+                const input = document.querySelector('.todo-input');
+                    if (input instanceof HTMLInputElement) {
+                    input.value = '';
+                    }
+                if (input) input.value = '';
+                showNotification('Todo added!', 'success');
                 }
             };
-            
+
             const toggleTodo = (id) => {
-                todoStore.update(todos => 
-                    todos.map(todo => 
-                        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-                    )
+                todoStore.update(todos =>
+                todos.map(todo =>
+                    todo.id === id ? { ...todo, completed: !todo.completed } : todo
+                )
                 );
             };
-            
+
             const deleteTodo = (id) => {
                 todoStore.update(todos => todos.filter(todo => todo.id !== id));
                 showNotification('Todo deleted!', 'error');
             };
-            
+
             return createElement('div', { className: 'demo-section' },
                 createElement('h2', {}, '📝 Todo List'),
                 createElement('p', {}, 'Interactive todo list with reactive updates and state management.'),
+                
                 createElement('input', {
-                    type: 'text',
-                    className: 'todo-input',
-                    placeholder: 'Enter a new todo...',
-                    oninput: (e) => inputValue = e.target.value,
-                    onkeypress: (e) => e.key === 'Enter' && addTodo()
+                type: 'text',
+                className: 'todo-input',
+                placeholder: 'Enter a new todo...',
+                oninput: (e) => {
+                    inputValue = (e.target).value;
+                },
+                onkeypress: (e) => {
+                    if (e.key === 'Enter') addTodo();
+                }
                 }),
+
                 createElement('button', {
-                    className: 'btn',
-                    onclick: addTodo
+                className: 'btn',
+                onclick: addTodo
                 }, 'Add Todo'),
-                createElement('ul', { className: 'todo-list' },
-                    () => todoStore().map(todo => 
-                        createElement('li', {
-                            className: () => `todo-item ${todo.completed ? 'completed' : ''}`,
-                            key: todo.id
-                        },
-                            createElement('span', { className: 'todo-text' }, todo.text),
-                            createElement('div', { className: 'todo-actions' },
-                                createElement('button', {
-                                    className: 'btn btn-sm',
-                                    onclick: () => toggleTodo(todo.id)
-                                }, todo.completed ? 'Undo' : 'Complete'),
-                                createElement('button', {
-                                    className: 'btn secondary btn-sm',
-                                    onclick: () => deleteTodo(todo.id)
-                                }, 'Delete')
-                            )
-                        )
+
+                createElement('ul', { className: 'todo-list' }, () => {
+                const fragment = document.createDocumentFragment();
+                const todos = todoStore();
+
+                todos.forEach(todo => {
+                    const item = createElement('li', {
+                    className: () => `todo-item ${todo.completed ? 'completed' : ''}`,
+                    key: todo.id
+                    },
+                    createElement('span', { className: 'todo-text' }, todo.text),
+                    createElement('div', { className: 'todo-actions' },
+                        createElement('button', {
+                        className: 'btn btn-sm',
+                        onclick: () => toggleTodo(todo.id)
+                        }, todo.completed ? 'Undo' : 'Complete'),
+                        createElement('button', {
+                        className: 'btn secondary btn-sm',
+                        onclick: () => deleteTodo(todo.id)
+                        }, 'Delete')
                     )
-                ),
-                createElement('div', { className: 'status-bar' },
-                    () => {
-                        const todos = todoStore();
-                        const completed = todos.filter(t => t.completed).length;
-                        return `Total: ${todos.length} | Completed: ${completed} | Remaining: ${todos.length - completed}`;
-                    }
-                )
+                    );
+
+                    fragment.appendChild(item);
+                });
+
+                return fragment;
+                }),
+
+                createElement('div', { className: 'status-bar' }, () => {
+                const todos = todoStore();
+                const completed = todos.filter(t => t.completed).length;
+                return `Total: ${todos.length} | Completed: ${completed} | Remaining: ${todos.length - completed}`;
+                })
             );
-        }
+            }
         
         // Theme switcher component
         function ThemeSwitcher() {
