@@ -1,18 +1,24 @@
 {
   "name": "counter-app",
+  "version": "1.0.0",
+  "description": "Example counter app using Singular framework",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
-  },
-  "devDependencies": {
-    "typescript": "~5.8.3",
-    "vite": "^7.0.4"
+    "build": "vite build",
+    "preview": "vite preview",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "singular-core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.2",
+    "vite": "^5.0.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   }
 }

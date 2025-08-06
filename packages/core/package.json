@@ -1,10 +1,74 @@
 {
   "name": "singular-core",
-  "version": "0.0.1",
+  "version": "1.0.0-alpha",
+  "description": "Lightweight, reactive JavaScript framework - Core library",
   "main": "dist/index.js",
+  "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch"
+    "build": "tsc && rollup -c",
+    "dev": "tsc --watch",
+    "type-check": "tsc --noEmit",
+    "clean": "rimraf dist",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "keywords": [
+    "javascript",
+    "framework",
+    "reactive",
+    "typescript",
+    "ui",
+    "frontend",
+    "lightweight",
+    "signal",
+    "component"
+  ],
+  "author": "Singular Core Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-username/singular.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/singular/issues"
+  },
+  "homepage": "https://github.com/your-username/singular#readme",
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^11.1.5",
+    "@types/node": "^20.10.0",
+    "rimraf": "^5.0.5",
+    "rollup": "^4.6.1",
+    "typescript": "^5.3.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js"
+    },
+    "./reactivity": {
+      "types": "./dist/reactivity.d.ts",
+      "import": "./dist/reactivity.esm.js",
+      "require": "./dist/reactivity.js"
+    },
+    "./router": {
+      "types": "./dist/router.d.ts",
+      "import": "./dist/router.esm.js",
+      "require": "./dist/router.js"
+    },
+    "./store": {
+      "types": "./dist/store.d.ts",
+      "import": "./dist/store.esm.js",
+      "require": "./dist/store.js"
+    }
   }
 }

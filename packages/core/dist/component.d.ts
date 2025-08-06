@@ -5,4 +5,4 @@ export declare function Fragment(props: {
     children: Child[];
 }): DocumentFragment;
 export {};
-//# sourceMappingURL=createElement.d.ts.map
+//# sourceMappingURL=component.d.ts.map

@@ -101,4 +101,4 @@ export function Fragment(props) {
     appendChildren(fragment, props.children);
     return fragment;
 }
-//# sourceMappingURL=createElement.js.map
+//# sourceMappingURL=component.js.map
