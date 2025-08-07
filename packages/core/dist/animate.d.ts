@@ -50,7 +50,6 @@ export declare function animateStagger(elements: HTMLElement[], options: Animate
 export declare class AnimationTimeline {
     private animations;
     private isPlaying;
-    private startTime;
     add(element: HTMLElement, options: AnimateOptions, startTime?: number): this;
     play(): this | undefined;
     pause(): this;

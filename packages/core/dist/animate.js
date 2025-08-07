@@ -207,8 +207,8 @@ export class AnimationTimeline {
     constructor() {
         this.animations = [];
         this.isPlaying = false;
-        this.startTime = 0;
     }
+    //private startTime = 0;
     add(element, options, startTime = 0) {
         this.animations.push({ element, options, startTime });
         return this;
@@ -217,7 +217,7 @@ export class AnimationTimeline {
         if (this.isPlaying)
             return;
         this.isPlaying = true;
-        this.startTime = performance.now();
+        //this.startTime = performance.now();
         this.animations.forEach(({ element, options, startTime }) => {
             const adjustedOptions = {
                 ...options,

@@ -312,7 +312,7 @@ export class AnimationTimeline {
   }> = [];
   
   private isPlaying = false;
-  private startTime = 0;
+  //private startTime = 0;
 
   add(element: HTMLElement, options: AnimateOptions, startTime: number = 0) {
     this.animations.push({ element, options, startTime });
@@ -323,7 +323,7 @@ export class AnimationTimeline {
     if (this.isPlaying) return;
     
     this.isPlaying = true;
-    this.startTime = performance.now();
+    //this.startTime = performance.now();
 
     this.animations.forEach(({ element, options, startTime }) => {
       const adjustedOptions = {
