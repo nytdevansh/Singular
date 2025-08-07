@@ -1,7 +1,7 @@
 import { render, animate, useState, effect, createElement } from 'singular-core';
 import { animateOnHover } from 'singular-core/animate';
 import { App } from './App';
-
+console.log("🔁 Singular v1.0.0-alpha with animations loaded");
 // Theme Store - Global reactive state for theme management
 const themeStore = useState<'light' | 'dark'>(getInitialTheme());
 
