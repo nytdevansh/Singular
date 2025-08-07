@@ -3,701 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Singular Framework Demo</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            line-height: 1.6;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
-        }
-        
-        .app {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
-            padding: 32px;
-            margin-bottom: 32px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        
-        .header h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 16px;
-        }
-        
-        .header p {
-            font-size: 1.25rem;
-            color: #666;
-            margin-bottom: 24px;
-        }
-        
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-            margin-bottom: 32px;
-        }
-        
-        .feature-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-        }
-        
-        .feature-card h3 {
-            color: #667eea;
-            margin-bottom: 12px;
-            font-size: 1.5rem;
-        }
-        
-        .demo-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
-            padding: 32px;
-            margin-bottom: 24px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-        }
-        
-        .demo-section h2 {
-            color: #667eea;
-            margin-bottom: 24px;
-            font-size: 2rem;
-        }
-        
-        .counter-demo {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-        
-        .counter-display {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #764ba2;
-            padding: 16px 24px;
-            background: #f8f9fa;
-            border-radius: 12px;
-            min-width: 120px;
-            text-align: center;
-        }
-        
-        .btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 12px 24px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
-        }
-        
-        .btn:active {
-            transform: translateY(0);
-        }
-        
-        .btn.secondary {
-            background: linear-gradient(135deg, #f093fb, #f5576c);
-            box-shadow: 0 4px 16px rgba(240, 147, 251, 0.3);
-        }
-        
-        .todo-input {
-            width: 100%;
-            padding: 16px;
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
-            font-size: 1rem;
-            margin-bottom: 16px;
-            transition: border-color 0.3s ease;
-        }
-        
-        .todo-input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-        
-        .todo-list {
-            list-style: none;
-            margin-top: 24px;
-        }
-        
-        .todo-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px;
-            background: #f8f9fa;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            transition: all 0.3s ease;
-        }
-        
-        .todo-item:hover {
-            background: #e9ecef;
-        }
-        
-        .todo-item.completed {
-            opacity: 0.6;
-            text-decoration: line-through;
-        }
-        
-        .todo-text {
-            flex: 1;
-            font-size: 1.1rem;
-        }
-        
-        .todo-actions {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .btn-sm {
-            padding: 6px 12px;
-            font-size: 0.875rem;
-            border-radius: 8px;
-        }
-        
-        .theme-switcher {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-top: 24px;
-        }
-        
-        .status-bar {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 16px;
-            border-radius: 12px;
-            margin-top: 24px;
-            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-            font-size: 0.9rem;
-            color: #666;
-        }
-        
-        [data-theme="dark"] {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            color: #ecf0f1;
-        }
-        
-        [data-theme="dark"] .feature-card,
-        [data-theme="dark"] .demo-section,
-        [data-theme="dark"] .header {
-            background: rgba(44, 62, 80, 0.95);
-            color: #ecf0f1;
-        }
-        
-        [data-theme="dark"] .todo-item {
-            background: rgba(52, 73, 94, 0.8);
-        }
-        
-        [data-theme="dark"] .todo-input {
-            background: rgba(52, 73, 94, 0.8);
-            border-color: #7f8c8d;
-            color: #ecf0f1;
-        }
-        
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 16px 24px;
-            border-radius: 12px;
-            color: white;
-            font-weight: 600;
-            z-index: 1000;
-            animation: slideIn 0.3s ease;
-        }
-        
-        .notification.success { background: #27ae60; }
-        .notification.error { background: #e74c3c; }
-        .notification.info { background: #3498db; }
-        
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-    </style>
+    <title>Singular Framework - Advanced Animation Demo</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
-<body>
-    <div id="app"></div>
-    
-    <script type="module">
-        // Simulate the Singular framework modules
-        
-        // === REACTIVITY SYSTEM ===
-        let currentEffect = null;
-        const effectStack = [];
+<body data-theme="dark" class="dark-theme">
+    <div class="app">
+        <!-- Small initial spacer for scroll animation -->
+        <div style="height: 10vh;"></div>
 
-        class ReactiveNode {
-            constructor() {
-                this.subscribers = new Set();
-                this.dependencies = new Set();
-            }
-            
-            subscribe(effect) {
-                this.subscribers.add(effect);
-            }
-            
-            unsubscribe(effect) {
-                this.subscribers.delete(effect);
-            }
-            
-            notify() {
-                this.subscribers.forEach(effect => {
-                    if (!effectStack.includes(effect)) {
-                        runEffect(effect);
-                    }
-                });
-            }
-            
-            track() {
-                if (currentEffect) {
-                    this.subscribe(currentEffect);
-                }
-            }
-        }
+        <!-- Logo Container -->
+        <div class="logo-container">
+            <img src="logo.png" alt="Singular Framework" class="logo">
+        </div>
 
-        function runEffect(effect) {
-            if (effectStack.includes(effect)) return;
+        <!-- Main Header -->
+        <header class="header">
+            <h1>Singular Framework</h1>
+            <p>Advanced Animation System with Loops, Sequences, and Interactions</p>
             
-            const prevEffect = currentEffect;
-            currentEffect = effect;
-            effectStack.push(effect);
-            
-            try {
-                effect();
-            } finally {
-                effectStack.pop();
-                currentEffect = prevEffect;
-            }
-        }
+            <!-- Theme Switcher Container -->
+            <div id="theme-switcher-container"></div>
+        </header>
 
-        function useState(initialValue) {
-            const node = new ReactiveNode();
-            let value = initialValue;
-            
-            const getter = () => {
-                node.track();
-                return value;
-            };
-            
-            const setter = (newValue) => {
-                if (value !== newValue) {
-                    value = newValue;
-                    node.notify();
-                }
-                return value;
-            };
-            
-            return [getter, setter];
-        }
+        <!-- Animation Demo Controls -->
+        <div class="animation-controls">
+            <button class="btn" id="demo-loop">Start Loop Demo</button>
+            <button class="btn secondary" id="demo-sequence">Chain Animation</button>
+            <button class="btn secondary" id="demo-stagger">Stagger Cards</button>
+            <button class="btn secondary" id="demo-timeline">Timeline Demo</button>
+        </div>
 
-        function effect(fn) {
-            runEffect(fn);
-            return () => {}; // cleanup
-        }
+        <!-- Minimal spacer for features animation -->
+        <div style="height: 15vh;"></div>
 
-        function computed(fn) {
-            const node = new ReactiveNode();
-            let value;
-            let isStale = true;
+        <!-- Features Grid -->
+        <div class="features">
+            <div class="feature-card" data-animation-target>
+                <h3>⚡ Lightning Fast</h3>
+                <p>Built with performance in mind using modern web standards with advanced animations</p>
+            </div>
+            <div class="feature-card" data-animation-target>
+                <h3>🎨 Modern Design</h3>
+                <p>Beautiful, responsive components with smooth animations and effects</p>
+            </div>
+            <div class="feature-card" data-animation-target>
+                <h3>🔧 Developer Friendly</h3>
+                <p>Simple API with TypeScript support and comprehensive animation system</p>
+            </div>
+        </div>
+
+        <!-- Minimal spacer for counter demo -->
+        <div style="height: 20vh;"></div>
+
+        <!-- Enhanced Counter Demo Section -->
+        <section class="demo-section">
+            <h2>Interactive Counter with Advanced Animations</h2>
+            <p>Experience looping, click-triggered, and chained animations</p>
             
-            const computedFn = () => {
-                if (isStale) {
-                    const prevEffect = currentEffect;
-                    currentEffect = () => {
-                        isStale = true;
-                        node.notify();
-                    };
-                    
-                    try {
-                        value = fn();
-                        isStale = false;
-                    } finally {
-                        currentEffect = prevEffect;
-                    }
-                }
+            <div class="counter-demo">
+                <div class="counter-display" id="counter">0</div>
+                <div class="counter-controls">
+                    <button class="btn" id="increment">+ Increment</button>
+                    <button class="btn" id="decrement">- Decrement</button>
+                    <button class="btn secondary" id="reset">Reset</button>
+                    <button class="btn secondary" id="animate-counter">Animate Counter</button>
+                </div>
+            </div>
+
+            <!-- FIXED: Status Bar Position - Moved here after counter -->
+            <div class="status-bar" id="status">
+                Counter: 0 | Todos: 0 | Theme: dark | Animations: Active
+            </div>
+
+            <!-- Animation Test Elements -->
+            <div class="animation-demos">
+                <div class="demo-box" id="loop-demo">Loop Animation</div>
+                <div class="demo-box" id="click-demo">Click Me!</div>
+                <div class="demo-box" id="sequence-demo">Sequence Demo</div>
+            </div>
+        </section>
+
+        <!-- Minimal spacer for todo demo -->
+        <div style="height: 20vh;"></div>
+
+        <!-- Enhanced Todo Demo Section -->
+        <section class="demo-section">
+            <h2>Todo Application with Animation Effects</h2>
+            <p>Todos animate in with staggered effects and smooth interactions</p>
+            
+            <div class="todo-demo">
+                <div class="todo-input-container">
+                    <input type="text" id="todo-input" class="todo-input" placeholder="Enter a new task...">
+                    <button class="btn" id="add-todo">Add Todo</button>
+                    <button class="btn secondary" id="animate-todos">Animate All</button>
+                </div>
                 
-                node.track();
-                return value;
-            };
-            
-            return computedFn;
-        }
+                <ul class="todo-list" id="todo-list">
+                    <!-- Todos will be dynamically rendered here -->
+                </ul>
+            </div>
+        </section>
 
-        function batch(fn) {
-            const prevStack = [...effectStack];
-            effectStack.length = 0;
-            
-            try {
-                fn();
-            } finally {
-                const effects = [...new Set(effectStack)];
-                effectStack.length = 0;
-                effectStack.push(...prevStack);
-                
-                effects.forEach(runEffect);
-            }
-        }
+        <!-- Minimal bottom spacer -->
+        <div style="height: 10vh;"></div>
+    </div>
 
-        // === DOM HELPERS ===
-        function createElement(type, props, ...children) {
-            const el = document.createElement(type);
-
-            if (props) {
-                for (const [key, value] of Object.entries(props)) {
-                    if (key.startsWith('on') && typeof value === 'function') {
-                        const eventName = key.slice(2).toLowerCase();
-                        el.addEventListener(eventName, value);
-                    } else if (key === 'className' || key === 'class') {
-                        if (typeof value === 'function') {
-                            effect(() => {
-                                el.className = String(value());
-                            });
-                        } else {
-                            el.className = String(value);
-                        }
-                    } else {
-                        if (typeof value === 'function') {
-                            effect(() => {
-                                const attrValue = value();
-                                if (attrValue != null) {
-                                    el.setAttribute(key, String(attrValue));
-                                } else {
-                                    el.removeAttribute(key);
-                                }
-                            });
-                        } else if (value != null) {
-                            el.setAttribute(key, String(value));
-                        }
-                    }
-                }
-            }
-
-            for (const child of children.flat(Infinity)) {
-                if (child == null || child === false) continue;
-
-                if (typeof child === 'function') {
-                    let currentNode = null;
-                    
-                    effect(() => {
-                        const newValue = child();
-                        const newNode = createChildNode(newValue);
-                        
-                        if (currentNode) {
-                            el.replaceChild(newNode, currentNode);
-                        } else {
-                            el.appendChild(newNode);
-                        }
-                        currentNode = newNode;
-                    });
-                } else {
-                    el.appendChild(createChildNode(child));
-                }
-            }
-
-            return el;
-        }
-
-        function createChildNode(child) {
-            if (child instanceof Node) return child;
-            return document.createTextNode(String(child));
-        }
-
-        // === STORE SYSTEM ===
-        function createStore(initialValue) {
-            const [state, setState] = useState(initialValue);
-            const subscribers = new Set();
-            const initialState = initialValue;
-            
-            effect(() => {
-                const currentValue = state();
-                subscribers.forEach(fn => fn(currentValue));
-            });
-            
-            const store = (() => state());
-            
-            store.set = (value) => setState(value);
-            
-            store.update = (updater) => setState(updater(state()));
-            
-            store.subscribe = (fn) => {
-                subscribers.add(fn);
-                return () => subscribers.delete(fn);
-            };
-            
-            store.reset = () => setState(initialState);
-            
-            return store;
-        }
-
-        // === DEMO APPLICATION ===
-        
-        // Create stores
-        const counterStore = createStore(0);
-        const todoStore = createStore([]);
-        const themeStore = createStore('light');
-        
-        // Theme effect
-        effect(() => {
-            document.documentElement.setAttribute('data-theme', themeStore());
-        });
-        
-        // Notification system
-        const notificationContainer = document.createElement('div');
-        document.body.appendChild(notificationContainer);
-        
-        function showNotification(message, type = 'info') {
-            const notification = createElement('div', {
-                className: `notification ${type}`
-            }, message);
-            
-            notificationContainer.appendChild(notification);
-            
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.parentNode.removeChild(notification);
-                }
-            }, 3000);
-        }
-        
-        // Counter component
-        function CounterDemo() {
-            return createElement('div', { className: 'demo-section' },
-                createElement('h2', {}, '🧮 Reactive Counter'),
-                createElement('p', {}, 'Demonstrates reactive state management with automatic UI updates.'),
-                createElement('div', { className: 'counter-demo' },
-                    createElement('div', { 
-                        className: 'counter-display' 
-                    }, () => `Count: ${counterStore()}`),
-                    createElement('button', {
-                        className: 'btn',
-                        onclick: () => {
-                            counterStore.update(c => c + 1);
-                            showNotification('Counter incremented!', 'success');
-                        }
-                    }, 'Increment'),
-                    createElement('button', {
-                        className: 'btn secondary',
-                        onclick: () => {
-                            counterStore.update(c => c - 1);
-                            showNotification('Counter decremented!', 'info');
-                        }
-                    }, 'Decrement'),
-                    createElement('button', {
-                        className: 'btn',
-                        onclick: () => {
-                            counterStore.reset();
-                            showNotification('Counter reset!', 'error');
-                        }
-                    }, 'Reset')
-                ),
-                createElement('div', { className: 'status-bar' },
-                    () => `Store Value: ${counterStore()} | Double: ${counterStore() * 2} | Squared: ${counterStore() ** 2}`
-                )
-            );
-        }
-        
-        // Todo component
-        function TodoDemo() {
-            let inputValue = '';
-
-            const addTodo = () => {
-                const value = inputValue.trim();
-                if (value) {
-                const newTodo = {
-                    id: Date.now(),
-                    text: value,
-                    completed: false
-                };
-
-                todoStore.update(todos => [...todos, newTodo]);
-                inputValue = '';
-                const input = document.querySelector('.todo-input');
-                    if (input instanceof HTMLInputElement) {
-                    input.value = '';
-                    }
-                if (input) input.value = '';
-                showNotification('Todo added!', 'success');
-                }
-            };
-
-            const toggleTodo = (id) => {
-                todoStore.update(todos =>
-                todos.map(todo =>
-                    todo.id === id ? { ...todo, completed: !todo.completed } : todo
-                )
-                );
-            };
-
-            const deleteTodo = (id) => {
-                todoStore.update(todos => todos.filter(todo => todo.id !== id));
-                showNotification('Todo deleted!', 'error');
-            };
-
-            return createElement('div', { className: 'demo-section' },
-                createElement('h2', {}, '📝 Todo List'),
-                createElement('p', {}, 'Interactive todo list with reactive updates and state management.'),
-                
-                createElement('input', {
-                type: 'text',
-                className: 'todo-input',
-                placeholder: 'Enter a new todo...',
-                oninput: (e) => {
-                    inputValue = (e.target).value;
-                },
-                onkeypress: (e) => {
-                    if (e.key === 'Enter') addTodo();
-                }
-                }),
-
-                createElement('button', {
-                className: 'btn',
-                onclick: addTodo
-                }, 'Add Todo'),
-
-                createElement('ul', { className: 'todo-list' }, () => {
-                const fragment = document.createDocumentFragment();
-                const todos = todoStore();
-
-                todos.forEach(todo => {
-                    const item = createElement('li', {
-                    className: () => `todo-item ${todo.completed ? 'completed' : ''}`,
-                    key: todo.id
-                    },
-                    createElement('span', { className: 'todo-text' }, todo.text),
-                    createElement('div', { className: 'todo-actions' },
-                        createElement('button', {
-                        className: 'btn btn-sm',
-                        onclick: () => toggleTodo(todo.id)
-                        }, todo.completed ? 'Undo' : 'Complete'),
-                        createElement('button', {
-                        className: 'btn secondary btn-sm',
-                        onclick: () => deleteTodo(todo.id)
-                        }, 'Delete')
-                    )
-                    );
-
-                    fragment.appendChild(item);
-                });
-
-                return fragment;
-                }),
-
-                createElement('div', { className: 'status-bar' }, () => {
-                const todos = todoStore();
-                const completed = todos.filter(t => t.completed).length;
-                return `Total: ${todos.length} | Completed: ${completed} | Remaining: ${todos.length - completed}`;
-                })
-            );
-            }
-        
-        // Theme switcher component
-        function ThemeSwitcher() {
-            return createElement('div', { className: 'theme-switcher' },
-                createElement('span', {}, 'Theme:'),
-                createElement('button', {
-                    className: 'btn btn-sm',
-                    onclick: () => {
-                        themeStore.set(themeStore() === 'light' ? 'dark' : 'light');
-                        showNotification(`Switched to ${themeStore()} theme!`, 'info');
-                    }
-                }, () => themeStore() === 'light' ? '🌙 Dark' : '☀️ Light')
-            );
-        }
-        
-        // Main App component
-        function App() {
-            return createElement('div', { className: 'app' },
-                createElement('div', { className: 'header' },
-                    createElement('h1', {}, '⚡ Singular Framework'),
-                    createElement('p', {}, 'A lightweight, reactive JavaScript framework built from scratch'),
-                    createElement('div', {},
-                        `Version: 1.0.0-alpha | Bundle size: ~8KB | Zero dependencies`
-                    ),
-                    ThemeSwitcher()
-                ),
-                
-                createElement('div', { className: 'features' },
-                    createElement('div', { className: 'feature-card' },
-                        createElement('h3', {}, '🔄 Reactive'),
-                        createElement('p', {}, 'Fine-grained reactivity system inspired by SolidJS. Only updates what actually changed.')
-                    ),
-                    createElement('div', { className: 'feature-card' },
-                        createElement('h3', {}, '🪶 Lightweight'),
-                        createElement('p', {}, 'Minimal bundle size with zero dependencies. Perfect for performance-critical applications.')
-                    ),
-                    createElement('div', { className: 'feature-card' },
-                        createElement('h3', {}, '🧩 Component-Based'),
-                        createElement('p', {}, 'Build encapsulated components with props, state, and lifecycle management.')
-                    ),
-                    createElement('div', { className: 'feature-card' },
-                        createElement('h3', {}, '🛣️ Built-in Router'),
-                        createElement('p', {}, 'Client-side routing with nested routes, guards, and dynamic parameters.')
-                    ),
-                    createElement('div', { className: 'feature-card' },
-                        createElement('h3', {}, '🗄️ State Management'),
-                        createElement('p', {}, 'Global and local state management with stores, computed values, and persistence.')
-                    ),
-                    createElement('div', { className: 'feature-card' },
-                        createElement('h3', {}, '🛠️ Developer Experience'),
-                        createElement('p', {}, 'TypeScript support, HMR, devtools integration, and comprehensive error handling.')
-                    )
-                ),
-                
-                CounterDemo(),
-                TodoDemo()
-            );
-        }
-        
-        // Render the app
-        function render(component, container) {
-            container.appendChild(component());
-        }
-        
-        // Mount the application
-        const appContainer = document.getElementById('app');
-        render(App, appContainer);
-        
-        // Show welcome notification
-        setTimeout(() => {
-            showNotification('🚀 Singular Framework Demo loaded successfully!', 'success');
-        }, 500);
-        
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
