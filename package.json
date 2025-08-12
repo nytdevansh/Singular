@@ -1,6 +1,6 @@
 {
-  "name": "singular",
-  "private": true,
+  "name": "singular-framework",
+  "private": false,
   "version": "0.1.0",
   "workspaces": [
     "packages/*",

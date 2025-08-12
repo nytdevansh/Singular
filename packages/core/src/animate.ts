@@ -19,6 +19,46 @@ interface AnimateOptions {
   onComplete?: () => void;
 }
 
+// Enhanced transform parsing utilities
+function parseTransform(value: string): Record<string, string> {
+  const transforms: Record<string, string> = {};
+  const regex = /(\w+)\(([^)]+)\)/g;
+  let match;
+
+  while ((match = regex.exec(value)) !== null) {
+    transforms[match[1]] = match[2];
+  }
+
+  return transforms;
+}
+
+function combineTransforms(from: string, to: string, progress: number): string {
+  const fromTransforms = parseTransform(from);
+  const toTransforms = parseTransform(to);
+  const allKeys = new Set([...Object.keys(fromTransforms), ...Object.keys(toTransforms)]);
+  
+  const result: string[] = [];
+  
+  allKeys.forEach(key => {
+    const fromValue = parseFloat(fromTransforms[key] || '0');
+    const toValue = parseFloat(toTransforms[key] || '0');
+    const currentValue = fromValue + (toValue - fromValue) * progress;
+    
+    // Preserve units
+    const unit = toTransforms[key]?.replace(/[0-9.-]/g, '') || 
+                 fromTransforms[key]?.replace(/[0-9.-]/g, '') || '';
+    
+    result.push(`${key}(${currentValue}${unit})`);
+  });
+  
+  return result.join(' ');
+}
+
+function getUnit(value: string | number) {
+  return typeof value === 'string' ? value.replace(/[0-9.-]/g, '') : '';
+}
+
+// Core animation function
 export function animate(
   element: HTMLElement,
   { duration, easing = 'linear', delay = 0, onComplete, ...props }: AnimateOptions
@@ -33,8 +73,13 @@ export function animate(
       console.warn(`Unit mismatch for "${prop}": "${from}" → "${to}"`);
     }
 
-    initialStyles[prop] = parseFloat(from);
-    finalStyles[prop] = parseFloat(to);
+    if (prop === 'transform') {
+      initialStyles[prop] = from;
+      finalStyles[prop] = to;
+    } else {
+      initialStyles[prop] = parseFloat(from);
+      finalStyles[prop] = parseFloat(to);
+    }
   }
 
   let stopped = false;
@@ -45,12 +90,16 @@ export function animate(
     const eased = ease(t);
 
     for (const prop in props) {
-      const from = initialStyles[prop];
-      const to = finalStyles[prop];
-      const value = from + (to - from) * eased;
-
-      const unit = getUnit(props[prop][0]);
-      element.style[prop as any] = isNaN(value) ? String(value) : value + unit;
+      if (prop === 'transform') {
+        const value = combineTransforms(initialStyles[prop], finalStyles[prop], eased);
+        element.style[prop as any] = value;
+      } else {
+        const from = initialStyles[prop];
+        const to = finalStyles[prop];
+        const value = from + (to - from) * eased;
+        const unit = getUnit(props[prop][0]);
+        element.style[prop as any] = isNaN(value) ? String(value) : value + unit;
+      }
     }
 
     if (t < 1) requestAnimationFrame(n => frame(n, start));
@@ -62,15 +111,11 @@ export function animate(
   return () => { stopped = true; };
 }
 
-function getUnit(value: string | number) {
-  return typeof value === 'string' ? value.replace(/[0-9.-]/g, '') : '';
-}
-
 // Animation on scrolling
 interface ScrollAnimationOptions extends AnimateOptions {
-  once?: boolean; // only trigger once
-  threshold?: number; // 0–1 for how much of element is visible
-  rootMargin?: string; // margin around root for early triggering
+  once?: boolean;
+  threshold?: number;
+  rootMargin?: string;
 }
 
 export function animateOnScroll(
@@ -104,17 +149,15 @@ export function animateOnHover(
 ) {
   const { reverseOnLeave = true, duration, easing = 'linear', ...props } = options;
 
-  // Use Partial while building reverse object
   const reverse: Partial<AnimateOptions> = {};
 
   for (const key in props) {
     if (Array.isArray(props[key])) {
       const [from, to] = props[key];
-      reverse[key] = [to, from]; // swap for reverse animation
+      reverse[key] = [to, from];
     }
   }
 
-  // Reuse original duration and easing
   reverse.duration = duration;
   reverse.easing = easing;
 
@@ -159,9 +202,9 @@ export function animateOnClick(
 
 // Loop animation
 interface LoopAnimationOptions extends AnimateOptions {
-  iterations?: number; // number of loops, Infinity for endless
+  iterations?: number;
   direction?: 'normal' | 'reverse' | 'alternate';
-  interval?: number; // delay between loops
+  interval?: number;
 }
 
 export function animateLoop(
@@ -178,9 +221,7 @@ export function animateLoop(
 
     const currentOptions = { ...animateOptions };
     
-    // Handle direction
     if (direction === 'reverse' || (direction === 'alternate' && isReversed)) {
-      // Reverse the animation properties
       for (const key in currentOptions) {
         if (Array.isArray(currentOptions[key])) {
           const [from, to] = currentOptions[key];
@@ -252,7 +293,7 @@ export function animateSequence(
   };
 }
 
-// Parallel animations (multiple elements or multiple properties)
+// Parallel animations
 export function animateParallel(
   animations: Array<{
     element: HTMLElement;
@@ -286,7 +327,7 @@ export function animateParallel(
   };
 }
 
-// Stagger animations (same animation on multiple elements with delays)
+// Stagger animations
 export function animateStagger(
   elements: HTMLElement[],
   options: AnimateOptions,
@@ -303,7 +344,7 @@ export function animateStagger(
   return animateParallel(animations);
 }
 
-// Timeline animation (complex sequencing)
+// Timeline animation
 export class AnimationTimeline {
   private animations: Array<{
     element: HTMLElement;
@@ -312,7 +353,6 @@ export class AnimationTimeline {
   }> = [];
   
   private isPlaying = false;
-  //private startTime = 0;
 
   add(element: HTMLElement, options: AnimateOptions, startTime: number = 0) {
     this.animations.push({ element, options, startTime });
@@ -323,7 +363,6 @@ export class AnimationTimeline {
     if (this.isPlaying) return;
     
     this.isPlaying = true;
-    //this.startTime = performance.now();
 
     this.animations.forEach(({ element, options, startTime }) => {
       const adjustedOptions = {
@@ -351,6 +390,220 @@ export class AnimationTimeline {
 
 export function createTimeline() {
   return new AnimationTimeline();
+}
+
+// Enhanced Movement Function
+interface MoveOptions extends AnimateOptions {
+  x?: [string | number, string | number];
+  y?: [string | number, string | number];
+  relative?: boolean;
+}
+
+export function animateMove(element: HTMLElement, options: MoveOptions) {
+  const { x, y, relative = true, ...rest } = options;
+  const props: Record<string, [string | number, string | number]> = {};
+
+  if (relative) {
+    if (x && y) {
+      props.transform = [
+        `translateX(${x[0]}) translateY(${y[0]})`,
+        `translateX(${x[1]}) translateY(${y[1]})`
+      ];
+    } else if (x) {
+      props.transform = [`translateX(${x[0]})`, `translateX(${x[1]})`];
+    } else if (y) {
+      props.transform = [`translateY(${y[0]})`, `translateY(${y[1]})`];
+    }
+  } else {
+    if (x) props.left = x;
+    if (y) props.top = y;
+  }
+
+  return animate(element, {
+    ...rest,
+    ...props,
+    duration: options.duration,
+    easing: options.easing ?? 'easeOutCubic',
+  });
+}
+
+// Enhanced Resize Function
+interface ResizeOptions extends AnimateOptions {
+  width?: [string | number, string | number];
+  height?: [string | number, string | number];
+  scale?: [number, number];
+  scaleX?: [number, number];
+  scaleY?: [number, number];
+  preserveAspectRatio?: boolean;
+}
+
+export function animateResize(element: HTMLElement, options: ResizeOptions) {
+  const { width, height, scale, scaleX, scaleY, preserveAspectRatio = false, ...rest } = options;
+  const props: Record<string, [string | number, string | number]> = {};
+
+  if (width) props.width = width;
+  if (height) props.height = height;
+
+  if (scale) {
+    props.transform = [`scale(${scale[0]})`, `scale(${scale[1]})`];
+  } else if (scaleX || scaleY) {
+    const currentScaleX = scaleX || [1, 1];
+    const currentScaleY = scaleY || [1, 1];
+    props.transform = [
+      `scaleX(${currentScaleX[0]}) scaleY(${currentScaleY[0]})`,
+      `scaleX(${currentScaleX[1]}) scaleY(${currentScaleY[1]})`
+    ];
+  }
+
+  if (preserveAspectRatio && width && height) {
+    const startWidth = parseFloat(String(width[0]));
+    const endWidth = parseFloat(String(width[1]));
+    const ratio = parseFloat(String(height[0])) / startWidth;
+    
+    props.height = [height[0], `${endWidth * ratio}px`];
+  }
+
+  return animate(element, {
+    ...rest,
+    ...props,
+    duration: options.duration,
+    easing: options.easing ?? 'easeInOutQuad',
+  });
+}
+
+// Enhanced Sticky Function
+interface StickOptions {
+  top?: number;
+  left?: number;
+  right?: number;
+  bottom?: number;
+  offset?: number;
+  zIndex?: number;
+  onStick?: () => void;
+  onUnstick?: () => void;
+  smoothTransition?: boolean;
+  transitionDuration?: number;
+}
+
+export function stickToViewport(
+  element: HTMLElement,
+  options: StickOptions
+) {
+  const { 
+    top, 
+    left, 
+    right, 
+    bottom, 
+    offset = 0, 
+    zIndex = 1000,
+    onStick, 
+    onUnstick,
+    smoothTransition = true,
+    transitionDuration = 200
+  } = options;
+
+  let isStuck = false;
+  let animationId: number | null = null;
+
+  const originalStyles = {
+    position: element.style.position || 'static',
+    top: element.style.top || 'auto',
+    left: element.style.left || 'auto',
+    right: element.style.right || 'auto',
+    bottom: element.style.bottom || 'auto',
+    zIndex: element.style.zIndex || 'auto',
+    transition: element.style.transition || 'none'
+  };
+
+  const initialRect = element.getBoundingClientRect();
+
+  function applyStickStyles() {
+    const styles: Partial<CSSStyleDeclaration> = {
+      position: 'fixed',
+      zIndex: String(zIndex)
+    };
+
+    if (top !== undefined) styles.top = `${top}px`;
+    if (left !== undefined) styles.left = `${left}px`;
+    if (right !== undefined) styles.right = `${right}px`;
+    if (bottom !== undefined) styles.bottom = `${bottom}px`;
+
+    if (smoothTransition) {
+      styles.transition = `all ${transitionDuration}ms ease-out`;
+    }
+
+    Object.assign(element.style, styles);
+  }
+
+  function removeStickStyles() {
+    if (smoothTransition) {
+      element.style.transition = `all ${transitionDuration}ms ease-out`;
+      Object.assign(element.style, {
+        position: 'absolute',
+        top: `${initialRect.top + window.scrollY}px`,
+        left: `${initialRect.left}px`
+      });
+
+      setTimeout(() => {
+        Object.assign(element.style, originalStyles);
+      }, transitionDuration);
+    } else {
+      Object.assign(element.style, originalStyles);
+    }
+  }
+
+  function handleScroll() {
+    const scrollY = window.scrollY;
+    const shouldStick = scrollY > offset;
+
+    if (shouldStick && !isStuck) {
+      applyStickStyles();
+      isStuck = true;
+      onStick?.();
+    } else if (!shouldStick && isStuck) {
+      removeStickStyles();
+      isStuck = false;
+      onUnstick?.();
+    }
+  }
+
+  function throttledScroll() {
+    if (animationId) return;
+    
+    animationId = requestAnimationFrame(() => {
+      handleScroll();
+      animationId = null;
+    });
+  }
+
+  window.addEventListener('scroll', throttledScroll, { passive: true });
+  handleScroll();
+
+  return {
+    destroy: () => {
+      window.removeEventListener('scroll', throttledScroll);
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+      if (isStuck) {
+        Object.assign(element.style, originalStyles);
+      }
+    },
+    unstick: () => {
+      if (isStuck) {
+        removeStickStyles();
+        isStuck = false;
+        onUnstick?.();
+      }
+    },
+    stick: () => {
+      if (!isStuck) {
+        applyStickStyles();
+        isStuck = true;
+        onStick?.();
+      }
+    }
+  };
 }
 
 // Utility functions
@@ -411,6 +664,42 @@ export function bounce(element: HTMLElement, intensity: number = 10, duration: n
   ]);
 }
 
+// Enhanced utility functions
+export function slideFromEdge(
+  element: HTMLElement, 
+  edge: 'top' | 'bottom' | 'left' | 'right',
+  //distance: number = 100,
+  duration: number = 500
+) {
+  const transforms = {
+    top: ['translateY(-100%)', 'translateY(0)'],
+    bottom: ['translateY(100%)', 'translateY(0)'],
+    left: ['translateX(-100%)', 'translateX(0)'],
+    right: ['translateX(100%)', 'translateX(0)']
+  };
+
+  return animate(element, {
+    transform: transforms[edge],
+    opacity: ['0', '1'],
+    duration,
+    easing: 'easeOutCubic'
+  });
+}
+
+export function morphSize(
+  element: HTMLElement,
+  fromSize: { width: number; height: number },
+  toSize: { width: number; height: number },
+  duration: number = 400
+) {
+  return animateResize(element, {
+    width: [`${fromSize.width}px`, `${toSize.width}px`],
+    height: [`${fromSize.height}px`, `${toSize.height}px`],
+    duration,
+    easing: 'easeInOutCubic'
+  });
+}
+
 // Export all for easy importing
 export default {
   animate,
@@ -422,8 +711,13 @@ export default {
   animateParallel,
   animateStagger,
   createTimeline,
+  animateMove,
+  animateResize,
+  stickToViewport,
   fadeIn,
   fadeOut,
   slideIn,
-  bounce
+  bounce,
+  slideFromEdge,
+  morphSize
 };

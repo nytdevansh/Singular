@@ -5,6 +5,8 @@ export function greet(name) {
 // Core rendering
 export { createElement, Fragment } from './createElement';
 export { render } from './render';
+// Export all for easy importing
+export { animate, animateOnScroll, animateOnHover, animateOnClick, animateLoop, animateSequence, animateParallel, animateStagger, createTimeline, animateMove, animateResize, stickToViewport, fadeIn, fadeOut, slideIn, bounce, slideFromEdge, morphSize } from './animate';
 // Reactivity system
 export { useState, effect, computed, batch } from './reactivity';
 // Component system

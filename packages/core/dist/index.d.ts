@@ -1,6 +1,7 @@
 export declare function greet(name: string): string;
 export { createElement, Fragment } from './createElement';
 export { render } from './render';
+export { animate, animateOnScroll, animateOnHover, animateOnClick, animateLoop, animateSequence, animateParallel, animateStagger, createTimeline, animateMove, animateResize, stickToViewport, fadeIn, fadeOut, slideIn, bounce, slideFromEdge, morphSize } from './animate';
 export { useState, effect, computed, batch } from './reactivity';
 export { component, memo, createContext, createPortal, Show, For, type ComponentFn } from './component';
 export { Router, Link, router, navigation, type Route, type RouteGuard, type RouteMatch } from './router';

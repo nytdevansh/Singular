@@ -56,6 +56,38 @@ export declare class AnimationTimeline {
     restart(): this;
 }
 export declare function createTimeline(): AnimationTimeline;
+interface MoveOptions extends AnimateOptions {
+    x?: [string | number, string | number];
+    y?: [string | number, string | number];
+    relative?: boolean;
+}
+export declare function animateMove(element: HTMLElement, options: MoveOptions): () => void;
+interface ResizeOptions extends AnimateOptions {
+    width?: [string | number, string | number];
+    height?: [string | number, string | number];
+    scale?: [number, number];
+    scaleX?: [number, number];
+    scaleY?: [number, number];
+    preserveAspectRatio?: boolean;
+}
+export declare function animateResize(element: HTMLElement, options: ResizeOptions): () => void;
+interface StickOptions {
+    top?: number;
+    left?: number;
+    right?: number;
+    bottom?: number;
+    offset?: number;
+    zIndex?: number;
+    onStick?: () => void;
+    onUnstick?: () => void;
+    smoothTransition?: boolean;
+    transitionDuration?: number;
+}
+export declare function stickToViewport(element: HTMLElement, options: StickOptions): {
+    destroy: () => void;
+    unstick: () => void;
+    stick: () => void;
+};
 export declare function fadeIn(element: HTMLElement, duration?: number): () => void;
 export declare function fadeOut(element: HTMLElement, duration?: number): () => void;
 export declare function slideIn(element: HTMLElement, direction?: 'up' | 'down' | 'left' | 'right', duration?: number): () => void;
@@ -63,6 +95,14 @@ export declare function bounce(element: HTMLElement, intensity?: number, duratio
     stop: () => void;
     restart: () => void;
 };
+export declare function slideFromEdge(element: HTMLElement, edge: 'top' | 'bottom' | 'left' | 'right', duration?: number): () => void;
+export declare function morphSize(element: HTMLElement, fromSize: {
+    width: number;
+    height: number;
+}, toSize: {
+    width: number;
+    height: number;
+}, duration?: number): () => void;
 declare const _default: {
     animate: typeof animate;
     animateOnScroll: typeof animateOnScroll;
@@ -73,10 +113,15 @@ declare const _default: {
     animateParallel: typeof animateParallel;
     animateStagger: typeof animateStagger;
     createTimeline: typeof createTimeline;
+    animateMove: typeof animateMove;
+    animateResize: typeof animateResize;
+    stickToViewport: typeof stickToViewport;
     fadeIn: typeof fadeIn;
     fadeOut: typeof fadeOut;
     slideIn: typeof slideIn;
     bounce: typeof bounce;
+    slideFromEdge: typeof slideFromEdge;
+    morphSize: typeof morphSize;
 };
 export default _default;
 //# sourceMappingURL=animate.d.ts.map
