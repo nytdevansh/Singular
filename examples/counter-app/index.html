@@ -3,112 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Singular Framework - Advanced Animation Demo</title>
+    <title>Singular Framework - Complete Enhanced Demo</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <meta name="description" content="Singular Framework - Complete Animation System Demo with All Features">
+    <meta name="keywords" content="singular, framework, animations, typescript, reactive">
 </head>
 <body data-theme="dark" class="dark-theme">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <p>Loading Singular Framework...</p>
+    </div>
+
+    <!-- Floating Sticky Logo (will be created dynamically) -->
+    <div id="floating-logo-container"></div>
+
     <div class="app">
-        <!-- Small initial spacer for scroll animation -->
+        <!-- Initial Spacer -->
         <div style="height: 10vh;"></div>
 
         <!-- Logo Container -->
         <div class="logo-container">
-            <img src="logo.png" alt="Singular Framework" class="logo">
+            <img id="main-logo" src="logo.png" alt="Singular Framework" class="logo">
         </div>
 
         <!-- Main Header -->
-        <header class="header">
+        <header class="header" role="banner">
             <h1>Singular Framework</h1>
-            <p>Advanced Animation System with Loops, Sequences, and Interactions</p>
+            <p>Complete Animation System with Loops, Sequences, Sticky Elements, and All Interactions</p>
             
             <!-- Theme Switcher Container -->
-            <div id="theme-switcher-container"></div>
+            <div class="theme-switcher-container"></div>
         </header>
 
         <!-- Animation Demo Controls -->
-        <div class="animation-controls">
-            <button class="btn" id="demo-loop">Start Loop Demo</button>
-            <button class="btn secondary" id="demo-sequence">Chain Animation</button>
-            <button class="btn secondary" id="demo-stagger">Stagger Cards</button>
-            <button class="btn secondary" id="demo-timeline">Timeline Demo</button>
-        </div>
+        <nav class="animation-controls" role="navigation" aria-label="Animation Controls">
+            <button class="btn" id="demo-loop" type="button">Start Loop Demo</button>
+            <button class="btn secondary" id="demo-sequence" type="button">Chain Animation</button>
+            <button class="btn secondary" id="demo-stagger" type="button">Stagger Cards</button>
+            <button class="btn secondary" id="demo-timeline" type="button">Timeline Demo</button>
+            <button class="btn secondary" id="demo-sticky" type="button">Toggle Sticky Logo</button>
+        </nav>
 
-        <!-- Minimal spacer for features animation -->
-        <div style="height: 15vh;"></div>
-
-        <!-- Features Grid -->
-        <div class="features">
-            <div class="feature-card" data-animation-target>
-                <h3>⚡ Lightning Fast</h3>
-                <p>Built with performance in mind using modern web standards with advanced animations</p>
+        <!-- Animation Utilities Demo Section -->
+        <section class="animation-utilities-section" aria-label="Animation Utilities Demo">
+            <h3>Animation Utilities Demo</h3>
+            <p>Fade, Slide, and Transform animations</p>
+            <div class="animation-utilities">
+                <button class="btn fade" id="btn-fadein" type="button">Fade In</button>
+                <button class="btn fade" id="btn-fadeout" type="button">Fade Out</button>
+                <button class="btn slide" id="btn-slidein-up" type="button">Slide In ↑</button>
+                <button class="btn slide" id="btn-slidein-down" type="button">Slide In ↓</button>
+                <button class="btn slide" id="btn-slidein-left" type="button">Slide In ←</button>
+                <button class="btn slide" id="btn-slidein-right" type="button">Slide In →</button>
             </div>
-            <div class="feature-card" data-animation-target>
-                <h3>🎨 Modern Design</h3>
-                <p>Beautiful, responsive components with smooth animations and effects</p>
-            </div>
-            <div class="feature-card" data-animation-target>
-                <h3>🔧 Developer Friendly</h3>
-                <p>Simple API with TypeScript support and comprehensive animation system</p>
-            </div>
-        </div>
-
-        <!-- Minimal spacer for counter demo -->
-        <div style="height: 20vh;"></div>
-
-        <!-- Enhanced Counter Demo Section -->
-        <section class="demo-section">
-            <h2>Interactive Counter with Advanced Animations</h2>
-            <p>Experience looping, click-triggered, and chained animations</p>
-            
-            <div class="counter-demo">
-                <div class="counter-display" id="counter">0</div>
-                <div class="counter-controls">
-                    <button class="btn" id="increment">+ Increment</button>
-                    <button class="btn" id="decrement">- Decrement</button>
-                    <button class="btn secondary" id="reset">Reset</button>
-                    <button class="btn secondary" id="animate-counter">Animate Counter</button>
-                </div>
-            </div>
-
-            <!-- FIXED: Status Bar Position - Moved here after counter -->
-            <div class="status-bar" id="status">
-                Counter: 0 | Todos: 0 | Theme: dark | Animations: Active
-            </div>
-
-            <!-- Animation Test Elements -->
-            <div class="animation-demos">
-                <div class="demo-box" id="loop-demo">Loop Animation</div>
-                <div class="demo-box" id="click-demo">Click Me!</div>
-                <div class="demo-box" id="sequence-demo">Sequence Demo</div>
+            <div class="animation-targets">
+                <div class="demo-target" id="fade-target">Fade Target</div>
+                <div class="demo-target" id="slide-target">Slide Target</div>
             </div>
         </section>
 
-        <!-- Minimal spacer for todo demo -->
+        <!-- Advanced Animations Demo Section -->
+        <section class="advanced-animations-section" aria-label="Advanced Animation Demos">
+            <h3>Advanced Animation Demos</h3>
+            <p>Loop, Bounce, Resize, Move, and Sticky animations</p>
+            
+            <div class="advanced-animation-grid">
+                <!-- Loop Animation Demo -->
+                <div class="animation-demo-card">
+                    <h4>🔄 Loop Animation</h4>
+                    <div class="demo-target loop-target" id="loop-animation-target">Looping...</div>
+                    <div class="demo-controls">
+                        <button class="btn-sm secondary" id="restart-loop">Restart Loop</button>
+                        <button class="btn-sm secondary" id="stop-loop">Stop Loop</button>
+                    </div>
+                </div>
+                
+                <!-- Bounce Animation Demo -->
+                <div class="animation-demo-card">
+                    <h4>⬆️ Bounce Animation</h4>
+                    <div class="demo-target bounce-target" id="bounce-animation-target">Click to Bounce!</div>
+                    <div class="demo-controls">
+                        <button class="btn-sm secondary" id="trigger-bounce">Bounce</button>
+                        <button class="btn-sm secondary" id="big-bounce">Big Bounce</button>
+                    </div>
+                </div>
+                
+                <!-- Resize Animation Demo -->
+                <div class="animation-demo-card">
+                    <h4>↔️ Resize Animation</h4>
+                    <div class="demo-target resize-target" id="resize-animation-target">Resize Me!</div>
+                    <div class="demo-controls">
+                        <button class="btn-sm secondary" id="resize-grow">Grow</button>
+                        <button class="btn-sm secondary" id="resize-shrink">Shrink</button>
+                    </div>
+                </div>
+                
+                <!-- Move Animation Demo -->
+                <div class="animation-demo-card">
+                    <h4>🏃 Move Animation</h4>
+                    <div class="demo-target move-target" id="move-animation-target">Move Me!</div>
+                    <div class="demo-controls">
+                        <button class="btn-sm secondary" id="move-circle">Circle</button>
+                        <button class="btn-sm secondary" id="move-random">Random</button>
+                    </div>
+                </div>
+                
+                <!-- Sticky Demo -->
+                <div class="animation-demo-card">
+                    <h4>📌 Sticky Demo</h4>
+                    <div class="demo-target sticky-demo-element" id="sticky-demo-element">Sticky Element</div>
+                    <div class="demo-controls">
+                        <button class="btn-sm secondary" id="make-sticky">Make Sticky</button>
+                        <button class="btn-sm secondary" id="remove-sticky">Remove Sticky</button>
+                    </div>
+                </div>
+                
+                <!-- Sequence Demo -->
+                <div class="animation-demo-card">
+                    <h4>🎬 Sequence Demo</h4>
+                    <div class="demo-target sequence-target" id="sequence-animation-target">Sequence Me!</div>
+                    <div class="demo-controls">
+                        <button class="btn-sm secondary" id="start-sequence">Start Sequence</button>
+                        <button class="btn-sm secondary" id="reverse-sequence">Reverse</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Spacer -->
+        <div style="height: 15vh;"></div>
+
+        <!-- Features Grid -->
+        <section class="features" role="region" aria-label="Framework Features">
+            <article class="feature-card" data-animation-target tabindex="0">
+                <h3>⚡ Lightning Fast</h3>
+                <p>Built with performance in mind using modern web standards with advanced animations and sticky elements</p>
+            </article>
+            <article class="feature-card" data-animation-target tabindex="0">
+                <h3>🎨 Modern Design</h3>
+                <p>Beautiful, responsive components with smooth animations, transitions, and interactive sticky behavior</p>
+            </article>
+            <article class="feature-card" data-animation-target tabindex="0">
+                <h3>🔧 Developer Friendly</h3>
+                <p>Simple API with TypeScript support, comprehensive animation system, and advanced sticky positioning</p>
+            </article>
+            <article class="feature-card" data-animation-target tabindex="0">
+                <h3>🎯 Complete Animations</h3>
+                <p>Includes fadeIn/Out, slideIn, bounce, resize, move, loop, sequence, timeline, and sticky animations</p>
+            </article>
+        </section>
+
+        <!-- Spacer -->
         <div style="height: 20vh;"></div>
 
-        <!-- Enhanced Todo Demo Section -->
-        <section class="demo-section">
-            <h2>Todo Application with Animation Effects</h2>
-            <p>Todos animate in with staggered effects and smooth interactions</p>
+        <!-- Counter Demo Section -->
+        <section class="demo-section" role="region" aria-label="Counter Demo">
+            <h2>Interactive Counter with Complete Animations</h2>
+            <p>Experience all animation types: looping, bouncing, resizing, moving, and sticky behavior</p>
+            
+            <div class="counter-demo" role="group" aria-label="Counter Interface">
+                <output class="counter-display" id="counter-display" aria-live="polite">0</output>
+                <div class="counter-controls">
+                    <button class="btn" id="increment" type="button" aria-label="Increment counter">+ Increment</button>
+                    <button class="btn" id="decrement" type="button" aria-label="Decrement counter">- Decrement</button>
+                    <button class="btn secondary" id="reset" type="button">Reset</button>
+                    <button class="btn secondary" id="animate-counter" type="button">Animate Counter</button>
+                    <button class="btn secondary" id="bounce-counter" type="button">Bounce Counter</button>
+                </div>
+            </div>
+
+            <!-- Status Bar -->
+            <div class="status-bar" id="status" aria-live="polite">
+                Counter: 0 | Todos: 0 | Theme: dark | Animations: Active | Sticky: Ready
+            </div>
+
+            <!-- Animation Test Elements -->
+            <div class="animation-demos" role="region" aria-label="Animation Demonstrations">
+                <div class="demo-box interactive-demo" id="loop-demo" tabindex="0" role="button">Loop Animation</div>
+                <div class="demo-box interactive-demo" id="click-demo" tabindex="0" role="button">Click Me!</div>
+                <div class="demo-box interactive-demo" id="sequence-demo" tabindex="0" role="button">Sequence Demo</div>
+                <div class="demo-box interactive-demo" id="move-demo" tabindex="0" role="button">Move Demo</div>
+            </div>
+        </section>
+
+        <!-- Spacer -->
+        <div style="height: 20vh;"></div>
+
+        <!-- Todo Demo Section -->
+        <section class="demo-section" role="region" aria-label="Todo Application Demo">
+            <h2>Todo Application with Complete Animation Effects</h2>
+            <p>Todos animate in with staggered effects, smooth interactions, and can be made sticky</p>
             
             <div class="todo-demo">
                 <div class="todo-input-container">
-                    <input type="text" id="todo-input" class="todo-input" placeholder="Enter a new task...">
-                    <button class="btn" id="add-todo">Add Todo</button>
-                    <button class="btn secondary" id="animate-todos">Animate All</button>
+                    <label for="todo-input" class="sr-only">Enter a new task</label>
+                    <input type="text" id="todo-input" class="todo-input" placeholder="Enter a new task..." aria-label="New todo item">
+                    <button class="btn" id="add-todo" type="button">Add Todo</button>
+                    <button class="btn secondary" id="animate-todos" type="button">Animate All</button>
+                    <button class="btn secondary" id="bounce-todos" type="button">Bounce All</button>
                 </div>
                 
-                <ul class="todo-list" id="todo-list">
+                <ul class="todo-list" id="todo-list" aria-live="polite" aria-label="Todo items">
                     <!-- Todos will be dynamically rendered here -->
                 </ul>
             </div>
         </section>
 
-        <!-- Minimal bottom spacer -->
+        <!-- Test Scroll Area for Sticky Demo -->
+        <div style="height: 100vh; background: linear-gradient(135deg, rgba(42, 42, 42, 0.3) 0%, rgba(27, 27, 27, 0.5) 100%); margin: 40px 0; border-radius: 20px; display: flex; align-items: center; justify-content: center;">
+            <div style="text-align: center; color: #888;">
+                <h3 style="color: #C4FF4D; font-family: 'Orbitron', monospace;">Scroll Test Area</h3>
+                <p>Scroll up and down to see the sticky logo in action!</p>
+                <p>This area provides enough scroll distance to test sticky behavior.</p>
+            </div>
+        </div>
+
+        <!-- Bottom spacer -->
         <div style="height: 10vh;"></div>
     </div>
 
-    <script type="module" src="src/script.js"></script>
+    <!-- Notification Container -->
+    <div id="notification-container" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Scripts -->
+    <script type="module" src="src/main.ts"></script>
 </body>
 </html>

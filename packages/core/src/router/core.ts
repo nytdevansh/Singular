@@ -1,5 +1,7 @@
-import { useState, effect } from './reactivity';
-import { ComponentFn } from './component';
+// router/core.ts - Your router implementation
+
+import { useState, effect } from '../reactivity/signal.js';
+import { ComponentFn } from '../components/component.js';
 
 // Route definition
 export interface Route {
@@ -132,107 +134,37 @@ class SingularRouter {
   
   // Run route guards
   private async runGuards(to: RouteMatch, from: RouteMatch | null): Promise<boolean> {
-    // Run global guards
     for (const guard of this.guards) {
-      const canProceed = await guard(to, from);
-      if (!canProceed) return false;
-    }
-    
-    // Find matching route and run its guards
-    const route = this.routes.find(r => this.matchPath(to.path, r.path));
-    if (route?.guards) {
-      for (const guard of route.guards) {
-        const canProceed = await guard(to, from);
-        if (!canProceed) return false;
+      const result = await guard(to, from);
+      if (!result) {
+        return false;
       }
     }
-    
     return true;
   }
 }
 
-// Global router instance
-export const router = new SingularRouter();
+// Create router instance
+const router = new SingularRouter();
 
-// Router component
-export function Router(props: { 
-  routes: Route[];
-  fallback?: ComponentFn<{}>;
-}): HTMLElement {
-  router.addRoutes(props.routes);
+export function Router({ routes }: { routes: Route[] }) {
+  router.addRoutes(routes);
   
-  const container = document.createElement('div');
-  container.setAttribute('data-router', 'true');
+  // Return router component that renders current route
+  const currentRoute = router.getCurrentRoute();
   
   effect(() => {
-    const currentRoute = router.getCurrentRoute()();
-    
-    // Clear container
-    container.innerHTML = '';
-    
-    if (currentRoute) {
-      const route = props.routes.find(r => router['matchPath'](currentRoute.path, r.path));
-      if (route) {
-        const component = route.component({ 
-          route: currentRoute,
-          params: currentRoute.params,
-          query: currentRoute.query 
-        });
-        container.appendChild(component);
-      } else if (props.fallback) {
-        container.appendChild(props.fallback({}));
+    const route = currentRoute();
+    if (route) {
+      // Find matching route component and render
+      const matchingRoute = routes.find(r => r.path === route.path);
+      if (matchingRoute) {
+        return matchingRoute.component(route);
       }
-    } else if (props.fallback) {
-      container.appendChild(props.fallback({}));
     }
   });
   
-  return container;
+  return document.createElement('div');
 }
 
-// Link component for navigation
-export function Link(props: {
-  to: string;
-  replace?: boolean;
-  children: any[];
-  className?: string;
-  onClick?: (e: MouseEvent) => void;
-}): HTMLElement {
-  const link = document.createElement('a');
-  link.href = props.to;
-  
-  if (props.className) {
-    link.className = props.className;
-  }
-  
-  // Append children
-  props.children.forEach(child => {
-    if (typeof child === 'string') {
-      link.appendChild(document.createTextNode(child));
-    } else if (child instanceof Node) {
-      link.appendChild(child);
-    }
-  });
-  
-  // Handle click
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    
-    if (props.onClick) {
-      props.onClick(e);
-    }
-    
-    router.navigate(props.to, props.replace);
-  });
-  
-  return link;
-}
-
-// Navigation helpers
-export const navigation = {
-  push: (path: string) => router.navigate(path, false),
-  replace: (path: string) => router.navigate(path, true),
-  back: () => window.history.back(),
-  forward: () => window.history.forward(),
-  getCurrentRoute: () => router.getCurrentRoute()
-};
+export { router };

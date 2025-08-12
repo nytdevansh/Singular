@@ -32,7 +32,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-username/singular.git",
+    "url": "git+https://github.com/nytdevansh/Singular.git",
     "directory": "packages/core"
   },
   "bugs": {

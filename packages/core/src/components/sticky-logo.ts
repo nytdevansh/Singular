@@ -1,4 +1,6 @@
-import { stickLogoToCorner, createAdvancedStickyLogo } from './animate';
+// components/sticky-logo.ts - Your StickyLogoManager
+
+import { animate, stickToViewport } from '../animate/core.js';
 
 export class StickyLogoManager {
   private cleanupFunctions: Array<() => void> = [];
@@ -16,7 +18,7 @@ export class StickyLogoManager {
       this.activeStickyLogos.get(logoSelector).destroy();
     }
 
-    const stickyLogo = createAdvancedStickyLogo(logoEl, {
+    const stickyLogo = this.createAdvancedStickyLogo(logoEl, {
       floatingSize: '45px',
       position: { top: '15px', left: '20px' },
       scrollThreshold: 100,
@@ -37,6 +39,17 @@ export class StickyLogoManager {
     this.activeStickyLogos.set(logoSelector, stickyLogo);
     this.cleanupFunctions.push(stickyLogo.destroy);
     return stickyLogo;
+  }
+
+  private createAdvancedStickyLogo(element: HTMLElement, options: any) {
+    return stickToViewport(element, {
+      top: options.position?.top || 15,
+      left: options.position?.left || 20,
+      offset: options.scrollThreshold || 100,
+      onStick: options.onShow,
+      onUnstick: options.onHide,
+      ...options
+    });
   }
 
   getStickyLogo(logoSelector: string) {

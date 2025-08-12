@@ -1,4 +1,6 @@
-import { effect } from './reactivity';
+// dom/createElement.ts - Your createElement implementation
+
+import { effect } from '../reactivity/effect.js';
 
 type Props = Record<string, any> | null;
 type Child = string | number | boolean | HTMLElement | (() => any) | Child[];
@@ -49,63 +51,10 @@ export function createElement(type: string, props: Props, ...children: Child[]):
   }
 
   // Handle children
-children.flat(10).forEach(child => insertChild(el, child));
+  children.flat(10).forEach(child => insertChild(el, child));
   return el;
 }
 
-function appendChildren(parent: HTMLElement, children: Child[]) {
-  for (const child of children) {
-    if (child == null || child === false) {
-      // Skip null, undefined, false
-      continue;
-    }
-
-    if (typeof child === 'function') {
-      // Reactive child
-      let currentNode: Text | HTMLElement | null = null;
-      
-      effect(() => {
-        const newValue = child();
-        const newNode = createChildNode(newValue);
-        
-        if (currentNode) {
-          parent.replaceChild(newNode, currentNode);
-        } else {
-          parent.appendChild(newNode);
-        }
-        currentNode = newNode;
-      });
-    } else {
-      // Static child
-      parent.appendChild(createChildNode(child));
-    }
-  }
-}
-
-function createChildNode(child: any): Text | HTMLElement {
-  if (child instanceof HTMLElement) {
-    return child;
-  }
-  
-  if (Array.isArray(child)) {
-    // Fragment-like behavior
-    const fragment = document.createDocumentFragment();
-    child.forEach(c => fragment.appendChild(createChildNode(c)));
-    // Return a placeholder text node since we can't return DocumentFragment
-    const placeholder = document.createTextNode('');
-    fragment.appendChild(placeholder);
-    return placeholder;
-  }
-  
-  return document.createTextNode(String(child));
-}
-
-// Fragment component for multiple children without wrapper
-export function Fragment(props: { children: Child[] }): DocumentFragment {
-  const fragment = document.createDocumentFragment();
-  appendChildren(fragment as any, props.children);
-  return fragment;
-}
 function insertChild(parent: Node, child: any) {
   if (typeof child === 'function') {
       const _text = document.createTextNode(String(child()));
@@ -126,3 +75,12 @@ function insertChild(parent: Node, child: any) {
     parent.appendChild(document.createTextNode(String(child)));
   }
 }
+
+// Fragment component for multiple children without wrapper
+export function Fragment(props: { children: Child[] }): DocumentFragment {
+  const fragment = document.createDocumentFragment();
+  props.children.forEach(child => insertChild(fragment as any, child));
+  return fragment;
+}
+
+export const JSXFragment = Fragment;

@@ -1,3 +1,5 @@
+// animate/core.ts - Your comprehensive animation system
+
 type EasingFunction = (t: number) => number;
 
 const easings: Record<string, EasingFunction> = {
@@ -11,13 +13,15 @@ const easings: Record<string, EasingFunction> = {
   easeOutBack: t => 1 + 2.70158 * Math.pow(t - 1, 3) + 1.70158 * Math.pow(t - 1, 2),
 };
 
-interface AnimateOptions {
+export interface AnimateOptions {
   [property: string]: [string | number, string | number] | any;
   duration: number;
   easing?: keyof typeof easings | undefined;
   delay?: number;
   onComplete?: () => void;
 }
+
+export type { EasingFunction };
 
 // Enhanced transform parsing utilities
 function parseTransform(value: string): Record<string, string> {
@@ -668,7 +672,6 @@ export function bounce(element: HTMLElement, intensity: number = 10, duration: n
 export function slideFromEdge(
   element: HTMLElement, 
   edge: 'top' | 'bottom' | 'left' | 'right',
-  //distance: number = 100,
   duration: number = 500
 ) {
   const transforms = {
@@ -699,25 +702,3 @@ export function morphSize(
     easing: 'easeInOutCubic'
   });
 }
-
-// Export all for easy importing
-export default {
-  animate,
-  animateOnScroll,
-  animateOnHover,
-  animateOnClick,
-  animateLoop,
-  animateSequence,
-  animateParallel,
-  animateStagger,
-  createTimeline,
-  animateMove,
-  animateResize,
-  stickToViewport,
-  fadeIn,
-  fadeOut,
-  slideIn,
-  bounce,
-  slideFromEdge,
-  morphSize
-};

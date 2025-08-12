@@ -586,7 +586,7 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 ```bash
 # Fork the repo and clone
-git clone https://github.com/your-username/singular.git
+git clone https://github.com/nytdevansh/Singular.git
 cd singular
 
 # Install dependencies  

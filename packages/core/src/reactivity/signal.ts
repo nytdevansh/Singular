@@ -1,4 +1,4 @@
-// Core Reactivity System for Singular
+// reactivity/signal.ts - Core Reactive System for Singular
 // Inspired by SolidJS and Svelte's reactive primitives
 
 type EffectFn = () => void;
@@ -132,3 +132,27 @@ export function batch(fn: () => void) {
     effects.forEach(runEffect);
   }
 }
+
+// Signal interface for alternative API
+export interface Signal<T> {
+  (): T;
+  set: (value: T | ((prev: T) => T)) => void;
+  peek: () => T;
+}
+
+// Alternative signal API
+export function createSignal<T>(initialValue: T, options?: { equals?: (a: T, b: T) => boolean }): Signal<T> {
+  const [get, set] = useState(initialValue);
+  
+  const signal = () => get();
+  signal.set = (newValue: T | ((prev: T) => T)) => {
+    const finalValue = typeof newValue === 'function' ? (newValue as (prev: T) => T)(get()) : newValue;
+    set(finalValue);
+  };
+  signal.peek = () => get();
+  
+  return signal;
+}
+
+// Export internals for other modules
+export { runEffect, currentEffect, effectStack };

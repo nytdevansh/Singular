@@ -1,11 +1,13 @@
+// packages/core/src/index.ts - Updated with your actual implementations
+
 // Core Singular Framework Export
 export function greet(name: string) {
   return `Hello, ${name} from Singular Core!`;
 }
 
 // Core rendering
-export { createElement, Fragment } from './createElement';
-export { render } from './render';
+export { createElement, Fragment } from './dom/createElement.js';
+export { render } from './dom/render.js';
 
 // Export all for easy importing
 // core animate
@@ -27,15 +29,33 @@ export {
   slideIn,
   bounce,
   slideFromEdge,
-  morphSize
-} from './animate';
+  morphSize,
+  type AnimateOptions,
+  type EasingFunction
+} from './animate/core.js';
+
 // Reactivity system
 export { 
   useState, 
-  effect, 
-  computed, 
+  createSignal,
+  type Signal
+} from './reactivity/signal.js';
+
+export {
+  effect,
+  createEffect,
+  onCleanup
+} from './reactivity/effect.js';
+
+export { 
+  computed,
+  createMemo,
+  type MemoOptions
+} from './reactivity/memo.js';
+
+export { 
   batch 
-} from './reactivity';
+} from './reactivity/batch.js';
 
 // Component system
 export {
@@ -43,37 +63,30 @@ export {
   memo,
   createContext,
   createPortal,
+  type ComponentFn
+} from './components/component.js';
+
+export {
   Show,
   For,
-  type ComponentFn
-} from './component';
+  type ShowProps,
+  type ForProps
+} from './components/control-flow.js';
 
 // Router
 export {
   Router,
-  Link,
   router,
-  navigation,
   type Route,
   type RouteGuard,
   type RouteMatch
-} from './router';
+} from './router/core.js';
 
-// State management
+// StickyLogoManager
 export {
-  createStore,
-  derived,
-  writable,
-  readable,
-  createActions,
-  persist,
-  appStore,
-  appActions,
-  applyMiddleware,
-  logger,
-  connectDevTools,
-  type Store
-} from './store';
+  StickyLogoManager,
+  stickyLogoManager
+} from './components/sticky-logo.js';
 
 // Version info
 export const VERSION = '1.0.0-alpha';
