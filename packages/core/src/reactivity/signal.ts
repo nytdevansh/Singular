@@ -142,6 +142,7 @@ export interface Signal<T> {
 
 // Alternative signal API
 export function createSignal<T>(initialValue: T, options?: { equals?: (a: T, b: T) => boolean }): Signal<T> {
+  void options;
   const [get, set] = useState(initialValue);
   
   const signal = () => get();

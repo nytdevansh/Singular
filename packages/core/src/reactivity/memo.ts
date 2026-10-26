@@ -1,18 +1,16 @@
 // reactivity/memo.ts - Computed values
 
-import { runEffect, currentEffect } from './signal.js';
+import { runEffect } from './signal.js';
 
 type ComputedFn<T> = () => T;
 
 // Create a computed value
 export function computed<T>(fn: ComputedFn<T>): () => T {
-  let value: T;
+  let value!: T;
   let isStale = true;
   
   const computedFn = () => {
     if (isStale) {
-      const prevEffect = currentEffect;
-      
       runEffect(() => {
         value = fn();
         isStale = false;
@@ -30,5 +28,6 @@ export interface MemoOptions<T> {
 }
 
 export function createMemo<T>(fn: ComputedFn<T>, options?: MemoOptions<T>): () => T {
+  void options;
   return computed(fn);
 }

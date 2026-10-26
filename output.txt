@@ -1,0 +1,266 @@
+.
+├── dockerfile
+├── docs
+├── examples
+│   └── counter-app
+│       ├── index.html
+│       ├── logo.png
+│       ├── node_modules
+│       │   ├── @babel
+│       │   │   └── plugin-syntax-jsx -> ../../../../node_modules/.pnpm/@babel+plugin-syntax-jsx@7.27.1_@babel+core@7.28.3/node_modules/@babel/plugin-syntax-jsx
+│       │   ├── @singular
+│       │   │   └── vite-preset-jsx -> ../../../../packages/vite-preset-jsx
+│       │   ├── singular-core -> ../../../packages/core
+│       │   ├── typescript -> ../../../node_modules/.pnpm/typescript@5.9.2/node_modules/typescript
+│       │   └── vite -> ../../../node_modules/.pnpm/vite@5.4.19_@types+node@20.19.9/node_modules/vite
+│       ├── package.json
+│       ├── pnpm-lock.yaml
+│       ├── public
+│       │   └── vite.svg
+│       ├── src
+│       │   ├── App.tsx
+│       │   ├── counter.ts
+│       │   ├── logosticky.d.ts
+│       │   ├── logosticky.js
+│       │   ├── main.ts
+│       │   ├── main.tsx
+│       │   ├── parallax.css
+│       │   ├── script.js
+│       │   ├── style.css
+│       │   ├── typescript.svg
+│       │   └── vite-env.d.ts
+│       ├── style.css
+│       ├── tsconfig.json
+│       └── vite.config.js
+├── LICENSE
+├── node_modules
+│   ├── @types
+│   │   ├── babel__core -> ../.pnpm/@types+babel__core@7.20.5/node_modules/@types/babel__core
+│   │   └── node -> ../.pnpm/@types+node@20.19.9/node_modules/@types/node
+│   ├── tslib -> .pnpm/tslib@2.8.1/node_modules/tslib
+│   ├── typescript -> .pnpm/typescript@5.9.2/node_modules/typescript
+│   └── vite -> .pnpm/vite@5.4.19_@types+node@20.19.9/node_modules/vite
+├── output.txt
+├── package.json
+├── packages
+│   ├── core
+│   │   ├── dist
+│   │   │   ├── animate
+│   │   │   │   ├── core.d.ts
+│   │   │   │   ├── core.d.ts.map
+│   │   │   │   ├── core.js
+│   │   │   │   ├── flip.d.ts
+│   │   │   │   ├── flip.d.ts.map
+│   │   │   │   ├── flip.js
+│   │   │   │   ├── parralax.d.ts
+│   │   │   │   ├── parralax.d.ts.map
+│   │   │   │   ├── parralax.js
+│   │   │   │   ├── transition.d.ts
+│   │   │   │   ├── transition.d.ts.map
+│   │   │   │   ├── transition.js
+│   │   │   │   ├── transitions.d.ts
+│   │   │   │   ├── transitions.d.ts.map
+│   │   │   │   └── transitions.js
+│   │   │   ├── components
+│   │   │   │   ├── boundary.d.ts
+│   │   │   │   ├── boundary.d.ts.map
+│   │   │   │   ├── boundary.js
+│   │   │   │   ├── component.d.ts
+│   │   │   │   ├── component.d.ts.map
+│   │   │   │   ├── component.js
+│   │   │   │   ├── context.d.ts
+│   │   │   │   ├── context.d.ts.map
+│   │   │   │   ├── context.js
+│   │   │   │   ├── control-flow.d.ts
+│   │   │   │   ├── control-flow.d.ts.map
+│   │   │   │   ├── control-flow.js
+│   │   │   │   ├── lifecycle.d.ts
+│   │   │   │   ├── lifecycle.d.ts.map
+│   │   │   │   ├── lifecycle.js
+│   │   │   │   ├── sticky-logo.d.ts
+│   │   │   │   ├── sticky-logo.d.ts.map
+│   │   │   │   └── sticky-logo.js
+│   │   │   ├── dev
+│   │   │   │   ├── inspector-stub.d.ts
+│   │   │   │   ├── inspector-stub.d.ts.map
+│   │   │   │   ├── inspector-stub.js
+│   │   │   │   ├── warning.d.ts
+│   │   │   │   ├── warning.d.ts.map
+│   │   │   │   └── warning.js
+│   │   │   ├── dom
+│   │   │   │   ├── createElement.d.ts
+│   │   │   │   ├── createElement.d.ts.map
+│   │   │   │   ├── createElement.js
+│   │   │   │   ├── render.d.ts
+│   │   │   │   ├── render.d.ts.map
+│   │   │   │   └── render.js
+│   │   │   ├── index.d.ts
+│   │   │   ├── index.d.ts.map
+│   │   │   ├── index.esm.js
+│   │   │   ├── index.esm.js.map
+│   │   │   ├── index.js
+│   │   │   ├── jsx
+│   │   │   │   ├── h.d.ts
+│   │   │   │   ├── h.d.ts.map
+│   │   │   │   ├── h.js
+│   │   │   │   ├── index.d.ts
+│   │   │   │   ├── index.d.ts.map
+│   │   │   │   ├── index.js
+│   │   │   │   ├── jsx-dev-runtime.d.ts
+│   │   │   │   ├── jsx-dev-runtime.d.ts.map
+│   │   │   │   ├── jsx-dev-runtime.js
+│   │   │   │   ├── jsx-runtime.d.ts
+│   │   │   │   ├── jsx-runtime.d.ts.map
+│   │   │   │   ├── jsx-runtime.js
+│   │   │   │   ├── render.d.ts
+│   │   │   │   ├── render.d.ts.map
+│   │   │   │   ├── render.js
+│   │   │   │   ├── runtime.d.ts
+│   │   │   │   ├── runtime.d.ts.map
+│   │   │   │   ├── runtime.js
+│   │   │   │   ├── types.d.ts
+│   │   │   │   ├── types.d.ts.map
+│   │   │   │   └── types.js
+│   │   │   ├── reactivity
+│   │   │   │   ├── batch.d.ts
+│   │   │   │   ├── batch.d.ts.map
+│   │   │   │   ├── batch.js
+│   │   │   │   ├── effect.d.ts
+│   │   │   │   ├── effect.d.ts.map
+│   │   │   │   ├── effect.js
+│   │   │   │   ├── memo.d.ts
+│   │   │   │   ├── memo.d.ts.map
+│   │   │   │   ├── memo.js
+│   │   │   │   ├── owner.d.ts
+│   │   │   │   ├── owner.d.ts.map
+│   │   │   │   ├── owner.js
+│   │   │   │   ├── signal.d.ts
+│   │   │   │   ├── signal.d.ts.map
+│   │   │   │   └── signal.js
+│   │   │   ├── router
+│   │   │   │   ├── core.d.ts
+│   │   │   │   ├── core.d.ts.map
+│   │   │   │   ├── core.js
+│   │   │   │   ├── link.d.ts
+│   │   │   │   ├── link.d.ts.map
+│   │   │   │   ├── link.js
+│   │   │   │   ├── navigation.d.ts
+│   │   │   │   ├── navigation.d.ts.map
+│   │   │   │   └── navigation.js
+│   │   │   ├── scheduler
+│   │   │   │   ├── microtask.d.ts
+│   │   │   │   ├── microtask.d.ts.map
+│   │   │   │   ├── microtask.js
+│   │   │   │   ├── priorities.d.ts
+│   │   │   │   ├── priorities.d.ts.map
+│   │   │   │   ├── priorities.js
+│   │   │   │   ├── raf.d.ts
+│   │   │   │   ├── raf.d.ts.map
+│   │   │   │   └── raf.js
+│   │   │   ├── state
+│   │   │   │   ├── action.d.ts
+│   │   │   │   ├── action.d.ts.map
+│   │   │   │   ├── action.js
+│   │   │   │   ├── derived.d.ts
+│   │   │   │   ├── derived.d.ts.map
+│   │   │   │   ├── derived.js
+│   │   │   │   ├── persist.d.ts
+│   │   │   │   ├── persist.d.ts.map
+│   │   │   │   ├── persist.js
+│   │   │   │   ├── store.d.ts
+│   │   │   │   ├── store.d.ts.map
+│   │   │   │   ├── store.js
+│   │   │   │   ├── writable.d.ts
+│   │   │   │   ├── writable.d.ts.map
+│   │   │   │   └── writable.js
+│   │   │   ├── testing
+│   │   │   │   ├── helper.d.ts
+│   │   │   │   ├── helper.d.ts.map
+│   │   │   │   └── helper.js
+│   │   │   ├── vite-plugin-singular.d.ts
+│   │   │   ├── vite-plugin-singular.d.ts.map
+│   │   │   └── vite-plugin-singular.js
+│   │   ├── jsx-dev-runtime.d.ts
+│   │   ├── jsx-runtime.d.ts
+│   │   ├── node_modules
+│   │   │   ├── @rollup
+│   │   │   │   └── plugin-typescript -> ../../../../node_modules/.pnpm/@rollup+plugin-typescript@11.1.6_rollup@4.46.2_tslib@2.8.1_typescript@5.9.2/node_modules/@rollup/plugin-typescript
+│   │   │   ├── @types
+│   │   │   │   └── node -> ../../../../node_modules/.pnpm/@types+node@20.19.9/node_modules/@types/node
+│   │   │   ├── rimraf -> ../../../node_modules/.pnpm/rimraf@5.0.10/node_modules/rimraf
+│   │   │   ├── rollup -> ../../../node_modules/.pnpm/rollup@4.46.2/node_modules/rollup
+│   │   │   └── typescript -> ../../../node_modules/.pnpm/typescript@5.9.2/node_modules/typescript
+│   │   ├── package.json
+│   │   ├── rollup.config.js
+│   │   ├── src
+│   │   │   ├── animate
+│   │   │   │   ├── core.ts
+│   │   │   │   ├── flip.ts
+│   │   │   │   ├── parallax.ts
+│   │   │   │   ├── transition.ts
+│   │   │   │   └── transitions.ts
+│   │   │   ├── components
+│   │   │   │   ├── boundary.ts
+│   │   │   │   ├── component.ts
+│   │   │   │   ├── context.ts
+│   │   │   │   ├── control-flow.ts
+│   │   │   │   ├── lifecycle.ts
+│   │   │   │   └── sticky-logo.ts
+│   │   │   ├── dev
+│   │   │   │   ├── inspector-stub.ts
+│   │   │   │   └── warning.ts
+│   │   │   ├── dom
+│   │   │   │   ├── createElement.ts
+│   │   │   │   └── render.ts
+│   │   │   ├── index.ts
+│   │   │   ├── jsx
+│   │   │   │   ├── global.d.ts
+│   │   │   │   ├── h.ts
+│   │   │   │   ├── index.ts
+│   │   │   │   ├── jsx-dev-runtime.ts
+│   │   │   │   ├── jsx-runtime.ts
+│   │   │   │   ├── render.ts
+│   │   │   │   ├── runtime.ts
+│   │   │   │   ├── tools
+│   │   │   │   └── types.ts
+│   │   │   ├── reactivity
+│   │   │   │   ├── batch.ts
+│   │   │   │   ├── effect.ts
+│   │   │   │   ├── memo.ts
+│   │   │   │   ├── owner.ts
+│   │   │   │   └── signal.ts
+│   │   │   ├── router
+│   │   │   │   ├── core.ts
+│   │   │   │   ├── link.ts
+│   │   │   │   └── navigation.ts
+│   │   │   ├── scheduler
+│   │   │   │   ├── microtask.ts
+│   │   │   │   ├── priorities.ts
+│   │   │   │   └── raf.ts
+│   │   │   ├── state
+│   │   │   │   ├── action.ts
+│   │   │   │   ├── derived.ts
+│   │   │   │   ├── persist.ts
+│   │   │   │   ├── store.ts
+│   │   │   │   └── writable.ts
+│   │   │   ├── testing
+│   │   │   │   └── helper.ts
+│   │   │   └── vite-plugin-singular.ts
+│   │   ├── tsconfig.json
+│   │   ├── vite-plugin-singular.d.ts
+│   │   ├── vite-plugin-singular.d.ts.map
+│   │   └── vite-plugin-singular.js
+│   ├── eslint-config
+│   └── router
+│       └── src
+├── playground
+├── pnpm-lock.yaml
+├── pnpm-workspace.yaml
+├── README.md
+├── scripts
+│   ├── build-toolchain.sh
+│   ├── dev-counter.sh
+│   └── setup-project.sh
+└── tsconfig.base.json
+
+58 directories, 206 files

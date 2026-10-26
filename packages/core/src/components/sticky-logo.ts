@@ -1,6 +1,6 @@
 // components/sticky-logo.ts - Your StickyLogoManager
 
-import { animate, stickToViewport } from '../animate/core.js';
+import { stickToViewport } from '../animate/core.js';
 
 export class StickyLogoManager {
   private cleanupFunctions: Array<() => void> = [];

@@ -16,10 +16,12 @@ export function effect(fn: EffectFn): () => void {
 }
 
 export function createEffect(fn: EffectFn, options?: { sync?: boolean }) {
+  void options;
   return effect(fn);
 }
 
 export function onCleanup(fn: () => void) {
   // Add cleanup function to current effect context
   // This would be implemented based on your cleanup strategy
+  void fn;
 }

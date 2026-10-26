@@ -1,5 +1,4 @@
 // components/lifecycle.ts
-import { onCleanup } from '../reactivity/effect.js';
 import { scheduleRaf } from '../scheduler/raf.js';
 
 export type LifecycleHook = () => void;

@@ -12,6 +12,7 @@ export interface StoreOptions<T> {
 }
 
 export function createStore<T>(initialValue: T, options?: StoreOptions<T>): Store<T> {
+  void options;
   const [getter, setter] = useState(initialValue);
   
   return { 

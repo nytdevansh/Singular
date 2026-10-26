@@ -162,6 +162,7 @@ export function Router({ routes }: { routes: Route[] }) {
         return matchingRoute.component(route);
       }
     }
+    return undefined;
   });
   
   return document.createElement('div');
