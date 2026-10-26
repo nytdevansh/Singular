@@ -21,8 +21,8 @@ export function Component(options: ComponentOptions) {
     if (!customElements.get(options.selector)) {
       // Create custom element class
       class SingularElement extends HTMLElement {
-        private componentRef: ComponentRef<any>;
-        private componentInjector: Injector;
+        private componentRef!: ComponentRef<any>;
+        private componentInjector!: Injector;
 
         constructor() {
           super();

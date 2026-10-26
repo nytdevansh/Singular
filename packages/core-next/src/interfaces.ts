@@ -53,16 +53,28 @@ export interface ComponentRef<T> {
    * The component instance
    */
   instance: T;
-  
+
   /**
    * The host element wrapper
    */
-  elementRef: ElementRef;
-  
+  elementRef?: ElementRef;
+
+  /**
+   * The host DOM element for this component
+   */
+  hostElement?: HTMLElement;
+
   /**
    * The change detector for this component
    */
-  changeDetectorRef: ChangeDetectorRef;
+  changeDetectorRef?: ChangeDetectorRef;
+
+  /**
+   * Lifecycle callbacks used by the custom element wrapper.
+   */
+  destroy?: () => void;
+  markForCheck?: () => void;
+  isDestroyed?: boolean;
 }
 
 /**
