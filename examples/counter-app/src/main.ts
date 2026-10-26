@@ -17,6 +17,7 @@ import {
   bounce,
   stickToViewport
 } from 'singular-core';
+import logoUrl from '../logo.png';
 
 // ===== APPLICATION STATE =====
 const [getTheme, setTheme] = useState<'light' | 'dark'>(getInitialTheme());
@@ -85,7 +86,7 @@ function createStickyLogo() {
 
   const floatingLogo = createElement('img', {
     id: 'floating-logo',
-    src: 'logo.png',
+    src: logoUrl,
     alt: 'Singular Framework',
     style: {
       position: 'fixed',
@@ -187,7 +188,7 @@ function LogoComponent() {
   return createElement('div', { className: 'logo-container' },
     createElement('img', {
       id: 'main-logo',
-      src: 'logo.png',
+      src: logoUrl,
       alt: 'Singular Framework Logo',
       className: 'logo',
       ref: (el: HTMLElement) => {
